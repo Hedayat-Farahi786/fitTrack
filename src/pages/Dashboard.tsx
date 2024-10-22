@@ -1,12 +1,17 @@
 import React from 'react';
 import { Activity, Dumbbell, Scale, Target } from 'lucide-react';
 import StatCard from '../components/Dashboard/StatCard';
+import { useUser } from '../context/UserContext';
 
 const Dashboard: React.FC = () => {
+  const { userData } = useUser();
+
+  const userName = userData?.personalInfo.name
+
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Welcome back, Alex!</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Welcome back, { userName.charAt(0).toUpperCase() + userName.slice(1).toLowerCase() }!</h1>
         <p className="mt-1 text-sm text-gray-500">
           Here's your fitness overview for today
         </p>

@@ -52,3 +52,5 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout, onClick }) => {
     </div>
   );
 };
+
+export default WorkoutCard;

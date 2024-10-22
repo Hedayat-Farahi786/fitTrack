@@ -37,3 +37,18 @@
     @apply px-4 py-5 sm:p-6;
   }
 }
+
+
+/* In index.css or a separate CSS file */
+
+.card {
+  @apply bg-white rounded-lg shadow overflow-hidden;
+}
+
+.card img {
+  @apply w-full h-48 object-cover;
+}
+
+.btn {
+  @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700;
+}

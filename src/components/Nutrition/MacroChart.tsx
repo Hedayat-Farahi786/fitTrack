@@ -1,3 +1,5 @@
+// fitTrack/src/components/Nutrition/MacroChart.tsx
+
 import React from 'react';
 
 interface MacroChartProps {
@@ -54,3 +56,5 @@ const MacroChart: React.FC<MacroChartProps> = ({
     </div>
   );
 };
+
+export default MacroChart;

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useUser } from '../context/UserContext';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext";
 
 const OnboardingForm: React.FC = () => {
   const navigate = useNavigate();
@@ -8,34 +8,45 @@ const OnboardingForm: React.FC = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     personalInfo: {
-      name: '',
-      age: '',
-      height: '',
-      weight: '',
-      gender: 'male',
+      name: "",
+      age: "",
+      height: "",
+      weight: "",
+      gender: "male",
     },
     goals: {
-      type: 'general_fitness',
-      targetWeight: '',
+      type: "general_fitness",
+      targetWeight: "",
       weeklyWorkouts: 3,
-      dailyCalories: 2000,
+      dailyCalories: "",
     },
-    activityLevel: 'moderate',
+    activityLevel: "moderate",
     healthConditions: [] as string[],
     preferences: {
-      measurementUnit: 'metric',
+      measurementUnit: "metric",
       workoutReminders: true,
       mealReminders: true,
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step < 4) {
       setStep(step + 1);
     } else {
-      updateUserData(formData);
-      navigate('/');
+      try {
+        // Send data to backend
+        // const response = await fetch('http://localhost:5000/api/users', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify(formData),
+        // });
+        // const user = await response.json();
+        updateUserData(formData);
+        navigate("/");
+      } catch (error) {
+        console.error("Error saving user data:", error);
+      }
     }
   };
 
@@ -164,11 +175,13 @@ const OnboardingForm: React.FC = () => {
                 <textarea
                   className="input mt-1"
                   placeholder="List any health conditions or limitations..."
-                  value={formData.healthConditions.join(', ')}
+                  value={formData.healthConditions.join(", ")}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      healthConditions: e.target.value.split(',').map((s) => s.trim()),
+                      healthConditions: e.target.value
+                        .split(",")
+                        .map((s) => s.trim()),
                     })
                   }
                 />
@@ -178,6 +191,34 @@ const OnboardingForm: React.FC = () => {
           </div>
         );
 
+      case 5:
+        return (
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Dietary Preference
+            </label>
+            <select
+              className="select mt-1"
+              value={formData.preferences.dietType}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  preferences: {
+                    ...formData.preferences,
+                    dietType: e.target.value as any,
+                  },
+                })
+              }
+            >
+              <option value="">None</option>
+              <option value="vegetarian">Vegetarian</option>
+              <option value="vegan">Vegan</option>
+              <option value="paleo">Paleo</option>
+              <option value="ketogenic">Ketogenic</option>
+              {/* Add more options as needed */}
+            </select>
+          </div>
+        );
       default:
         return null;
     }
@@ -209,7 +250,7 @@ const OnboardingForm: React.FC = () => {
                 </button>
               )}
               <button type="submit" className="btn ml-auto">
-                {step === 4 ? 'Complete Setup' : 'Next'}
+                {step === 5 ? "Complete Setup" : "Next"}
               </button>
             </div>
           </form>
